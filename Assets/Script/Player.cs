@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -32,6 +33,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _jump_count_max = 1;        //ジャンプ回数
     private float _jump_count = 0;      //ジャンプ回数のカウント
+
+    private int _score = 0;     // スコアの累計
+    [SerializeField] private TMP_Text _scoreUI = default;
+
 
     enum Direction
     {
@@ -97,30 +102,13 @@ public class Player : MonoBehaviour
         _animator.SetFloat(hashSpeed, Mathf.Abs(axis));
     }
 
-    //void Bullet()
-    //{
-    //    if (Input.GetMouseButton(0) && _bullet_interval_count <= 0)
-    //    {
-    //        Vector3 spawn_pos = transform.position + new Vector3(3 * _direction, 0, 0);
-
-    //        var b = Instantiate(bullet, spawn_pos, transform.rotation);
-    //        b.GetComponent<bullet>().SetDir(_direction);
-
-    //        _bullet_interval_count = _bullet_interval;
-    //    }
-
-    //    if (_bullet_interval_count > 0)
-    //    {
-    //        _bullet_interval_count -= Time.deltaTime;
-    //    }
-
-    //}
-
     void Update()
     {
         move();
-        //Bullet();
+        _scoreUI.text = "" + _score;
     }
+
+    
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -133,10 +121,17 @@ public class Player : MonoBehaviour
 
         }
 
-        //if (collision.gameObject.CompareTag("Enemy"))
-        //{
-        //    _animator.SetTrigger(hashDamage);
-        //}
+        if (collision.gameObject.CompareTag("item"))
+        {
+            var item_ = collision.gameObject.GetComponent<Item>();
+
+            _score += item_.getItemScore();     // スコアを加算
+
+            Debug.Log("score = " + _score);     // スコアを表示
+
+            Destroy(collision.gameObject);      // アイテムを消去
+
+        }
 
 
     }
