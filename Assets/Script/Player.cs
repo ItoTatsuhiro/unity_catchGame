@@ -35,8 +35,10 @@ public class Player : MonoBehaviour
     private float _jump_count = 0;      //ジャンプ回数のカウント
 
     private int _score = 0;     // スコアの累計
-    [SerializeField] private TMP_Text _scoreUI = default;
+    [SerializeField] private TMP_Text _scoreUI = default;   // スコアを表示するUI
+    [SerializeField] private TMP_Text _scoreUI_result;      // リザルトで表示するUI
 
+    [SerializeField, Header("初期位置")] private GameObject _startPos;  // 初期地点
 
     enum Direction
     {
@@ -51,6 +53,8 @@ public class Player : MonoBehaviour
         _animator = GetComponent<Animator>();                //アニメーターの取得
         _spriteRenderer = GetComponent<SpriteRenderer>();    //スプライトレンダラーの取得
         _rigidbody = GetComponent<Rigidbody2D>();           //リジットボディの取得
+
+        transform.position = _startPos.transform.position;  // 初期地点に移動
     }
 
 
@@ -105,7 +109,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         move();
-        _scoreUI.text = "" + _score;
+        _scoreUI.text = "SCORE ：" + _score.ToString();
+
+        if(transform.position.y < -10)
+        {
+            // 落下した際に初期位置に戻す
+            transform.position = _startPos.transform.position;  
+        }
+
+        _scoreUI_result.text = " TOTAL SCORE ：" + _score.ToString();   
     }
 
     
