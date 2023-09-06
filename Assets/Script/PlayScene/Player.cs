@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _jump_count_max = 1;        //ジャンプ回数
     private float _jump_count = 0;      //ジャンプ回数のカウント
 
-    private int _score = 0;     // スコアの累計
+    public int _score = 0;     // スコアの累計
     [SerializeField] private TMP_Text _scoreUI = default;   // スコアを表示するUI
     [SerializeField] private TMP_Text _scoreUI_result;      // リザルトで表示するUI
 

@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneChange_PlayScene : MonoBehaviour
 {
-
+    [SerializeField]
+    private Player _player;
 
     public void changeButton_PlayScene()
     {
-        SceneManager.LoadScene("TitleScene");
+        PlayerPrefs.SetInt("Score", _player._score);
+        SceneManager.LoadScene("ResultScene");
     }
 
 }
